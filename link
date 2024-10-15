@@ -1,0 +1,348 @@
+import java.util.Scanner;
+class Node
+{
+    int data;
+    Node link;
+    public Node(int data) 
+    {
+        this.data=data;
+        this.link=null;
+    }
+}
+class LinkedList 
+{
+ Node head;
+ LinkedList()
+ {
+    this.head=null;
+ } 
+ public void insertEnd(int data)
+ {
+    Node n=new Node(data);
+    if(head==null)
+    {
+        head=n;
+    }
+    else
+    {
+        Node cp=head;
+    while(cp.link!=null)
+    {
+        cp=cp.link;
+    }
+    cp.link=n;
+    }
+
+ }  
+ public void insertBeg(int data)
+ {
+    Node n=new Node(data);
+    n.link=head;
+    head=n;
+ }
+public int getPosition(int data)
+{
+    Node cp=head;
+    int pos=0;
+    boolean found=false;
+    while(cp!=null)
+    {
+        if(cp.data==data)
+        {
+            found=true;
+            break;
+        }
+        cp=cp.link;
+        pos++;
+    }
+    return found?pos:-1;
+
+}
+ public void display()
+ {
+    Node cp=head;
+    System.out.print("Head->");
+    while(cp!=null)
+    {
+        System.out.print("|"+cp.data+"|->");
+        cp=cp.link;
+    }
+    System.out.println("null");
+ }
+ public void insertPos(int pos,int data)
+ {
+    if(pos==0)
+    {
+        insertBeg(data);
+    }
+    else
+    {
+        Node n=new Node(data);
+        Node cp=head;
+        Node pp=null;
+        int posIndex=0;
+        boolean found=false;
+        while(cp!=null)
+        {
+            if(pos==posIndex)
+            {
+                found=true;
+                break;
+            }
+            pp=cp;
+            cp=cp.link;
+            posIndex++;
+        }
+        if(found)
+        {
+            pp.link=n;
+            n.link=cp; 
+        }
+        else
+        {
+            System.out.println("Pos not found");
+        }
+    }
+ }
+ public void insertBefore(int bNodeData,int data)
+ {
+    Node cp=head;
+    Node pp=null;
+    Node n=new Node(data);
+    boolean found=false;
+    while(cp!=null)
+    {
+        if(cp.data==bNodeData)
+        {
+            found=true;
+            break;
+        }
+        pp=cp;
+        cp=cp.link;
+    }
+    if(found)
+    {
+        if(cp==head)
+        {
+            insertBeg(data);
+        }
+        else
+        {
+        pp.link=n;
+        n.link=cp;
+        }
+    }
+    else
+    {
+        System.out.println("Node Not found");
+    }
+
+
+ }
+ public void insertAfter(int aNodeData,int data)
+ {
+    
+    Node cp=head;
+    Node np=null;
+    boolean found=false;
+    while(cp!=null)
+    {
+        if(cp.data==aNodeData)
+        {
+            found=true;
+            break;
+        }
+        cp=cp.link;
+    }
+    if(!found)
+    {
+        System.out.println("Node not Found:");
+    }
+    else
+    {
+        if(cp.link==null)
+        {
+            insertEnd(data);
+        }
+        else
+        {
+            Node n=new Node(data);
+            np=cp.link;
+            cp.link=n;
+            n.link=np;
+        }
+    }
+
+ }
+ public int deleteBeg()
+ {
+    if(head==null)
+    {
+        System.out.println("Empty linked list");
+        return -1;
+    }
+    else
+    {
+        Node cp=head;
+        head=cp.link;
+        return cp.data;
+    }
+ }
+ public int deleteEnd()
+ {
+    Node cp=head;
+    Node pp=null;
+    if(head==null)
+    {
+        System.out.println("Empty linked list");
+        return -1;
+    }
+    else
+    {
+        if(cp.link==null)
+        {
+            head=null;
+            return cp.data;
+        }
+        while(cp.link!=null)
+        {
+            pp=cp;
+            cp=cp.link;
+        }
+        pp.link=null;
+        return cp.data;
+    }
+ }
+ public int deletePos(int pos)
+ {
+    Node cp=head;
+    Node pp=null;
+    Node np=null;
+    boolean found=false;
+    int dpos=0;
+    if(head==null)
+    {
+        System.out.println("Empty linked list");
+        return -1;
+    }
+    else if(cp.link==null)
+    {
+        head=null;
+        return  cp.data;
+    }
+    else if(pos==0)
+    {
+        return deleteBeg();
+    }
+    else 
+    {
+        while(cp!=null)
+        {
+            if(dpos==pos)
+            {
+                found=true;
+                break;
+            }
+            pp=cp;
+            cp=cp.link;
+
+            dpos++;
+        }
+        if(!found)
+        {
+            System.out.println("invalid Position");
+            return -1;
+        }
+        np=cp.link;
+        pp.link=np;
+        return cp.data;
+
+    }
+ }
+ public boolean search(int data)
+ {
+    boolean found=false;
+    Node cp=head;
+    while(cp!=null)
+    {
+        if(cp.data==data)
+        {
+            found=true;
+            break;
+        }
+        cp=cp.link;
+    }
+    return found;
+ }
+
+}
+
+
+
+public class LLoperations {
+    public static void main(String[] args) {
+        int choice=0;
+        Scanner scanner=new Scanner(System.in);
+        int data=0;
+        int pos,bNodeData,aNodeData;
+        LinkedList l1=new LinkedList();
+        while(choice<13)
+        {
+            System.out.println("1.Display 2.Insert-End 3.Insert-Beg 4.Insert-pos 5.Insert-Before 6.Insert-After 7.Delete-Beg 8.Delete-End 9.Delete-Pos 10.Delete-Before 11.Delete-After 12.Search 13.Exit ");
+            choice=scanner.nextInt();
+            switch(choice)
+            {
+                case 1:l1.display();break;
+                case 2:System.out.println("Data:");
+                        data=scanner.nextInt();
+                        l1.insertEnd(data);
+                        break;
+                case 3:System.out.println("Data:");
+                        data=scanner.nextInt();
+                        l1.insertBeg(data);
+                        break;
+                case 4:System.out.println("Pos:");
+                        pos=scanner.nextInt();
+                        System.out.println("Data:");
+                        data=scanner.nextInt();
+                        l1.insertPos(pos,data);
+                        break;
+                case 5:System.out.println("Data:");
+                        data=scanner.nextInt();
+                        System.out.println("Data of the node (Before)");
+                        bNodeData=scanner.nextInt();
+                        l1.insertBefore(bNodeData,data);
+                        break;
+                case 6:System.out.println("Data:");
+                        data=scanner.nextInt();
+                        System.out.println("Data of the node (After)");
+                        aNodeData=scanner.nextInt();
+                        l1.insertAfter(aNodeData,data);
+                        break;
+                case 7:System.out.println("Deleted node:"+l1.deleteBeg());
+                        break;
+                case 8:System.out.println("Deleted node:"+l1.deleteEnd());
+                        break;
+                case 9:System.out.println("Enter the Position:");
+                        pos=scanner.nextInt();
+                        System.out.println("Delted Element:"+l1.deletePos(pos));
+                        break;
+                case 10:System.out.println("Enter the node Data:(before)");
+                        data=scanner.nextInt();
+                        pos=l1.getPosition(data);
+                        l1.deletePos(pos-1);
+                        break;
+                case 11:System.out.println("Enter the node Data:(After)");
+                        data=scanner.nextInt();
+                        pos=l1.getPosition(data);
+                        l1.deletePos(pos+1);
+                        break;
+                case 12:System.out.println("Data:");
+                        data=scanner.nextInt();
+                        System.out.println("Data Found:"+l1.search(data));
+                        break;
+                        
+            }
+        }
+    }
+}
